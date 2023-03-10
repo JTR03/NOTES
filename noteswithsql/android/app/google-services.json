@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1078359826197",
+    "project_id": "notice25",
+    "storage_bucket": "notice25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078359826197:android:13555d039082b23054531c",
+        "android_client_info": {
+          "package_name": "za.co.notesapp.noteswithsql"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078359826197-41l9tfp56vnr4af48ugtuo5u79d49lma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE1nZiwdB8QJCZ1fQ9BkiTgtaqblP1fkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078359826197-41l9tfp56vnr4af48ugtuo5u79d49lma.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1078359826197-vm04hgiru67t7sd7sl3sgsh99dcb48of.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "za.co.notesapp.noteswithsql"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
