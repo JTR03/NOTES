@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:noteswithsql/firebase_options.dart';
 import 'package:noteswithsql/views/login_view.dart';
+import 'package:noteswithsql/views/register_view.dart';
+import 'package:noteswithsql/views/verify_email.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,12 +32,11 @@ class HomePage extends StatelessWidget {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
               if (user!.emailVerified) {
-                print('User is verified');
+                return const LoginView();
               } else {
-                print('User not verified');
+                return const VerifyEmailView();
               }
-              print(user);
-              return const Text('Done');
+             
 
             default:
               return const Text('Loading...');
