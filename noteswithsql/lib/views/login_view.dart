@@ -2,30 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:noteswithsql/firebase_options.dart';
-import 'package:noteswithsql/views/login_view.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-    title: 'Flutter Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: const LoginView(),
-  ));
-}
-
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
 late final TextEditingController _email;
 late final TextEditingController _password;
 
-class _RegisterViewState extends State<RegisterView> {
+class _LoginViewState extends State<LoginView> {
   @override
   void initState() {
     _email = TextEditingController();
@@ -44,7 +32,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Login'),
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
@@ -73,25 +61,24 @@ class _RegisterViewState extends State<RegisterView> {
                       onPressed: () async {
                         final email = _email.text;
                         final password = _password.text;
-
                         try {
                           final userCredentials = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
+                              .signInWithEmailAndPassword(
                             email: email,
                             password: password,
                           );
                           print(userCredentials);
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            print('Weak password');
-                          } else if (e.code == 'email-already-in-use') {
-                            print('Email already in use');
-                          } else if (e.code == 'invalid-email') {
-                            print('Invalid Email');
+                          if (e.code == 'user-not-found') {
+                            print('User not found');
+                          } else if (e.code == 'wrong-password') {
+                            print('Wrong Password');
                           }
+
+                          print(e.code);
                         }
                       },
-                      child: const Text('Register'))
+                      child: const Text('login'))
                 ],
               );
 
@@ -101,5 +88,6 @@ class _RegisterViewState extends State<RegisterView> {
         },
       ),
     );
+    ;
   }
 }
