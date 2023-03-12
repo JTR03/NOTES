@@ -3,18 +3,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:noteswithsql/firebase_options.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-
-
-class _LoginViewState extends State<LoginView> {
-late final TextEditingController _email;
-late final TextEditingController _password;
+class _RegisterViewState extends State<RegisterView> {
+  late final TextEditingController _email;
+  late final TextEditingController _password;
 
   @override
   void initState() {
@@ -34,7 +32,7 @@ late final TextEditingController _password;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Register'),
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
@@ -63,24 +61,25 @@ late final TextEditingController _password;
                       onPressed: () async {
                         final email = _email.text;
                         final password = _password.text;
+
                         try {
                           final userCredentials = await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
+                              .createUserWithEmailAndPassword(
                             email: email,
                             password: password,
                           );
                           print(userCredentials);
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print('User not found');
-                          } else if (e.code == 'wrong-password') {
-                            print('Wrong Password');
+                          if (e.code == 'weak-password') {
+                            print('Weak password');
+                          } else if (e.code == 'email-already-in-use') {
+                            print('Email already in use');
+                          } else if (e.code == 'invalid-email') {
+                            print('Invalid Email');
                           }
-
-                          print(e.code);
                         }
                       },
-                      child: const Text('login'))
+                      child: const Text('Register'))
                 ],
               );
 
@@ -90,6 +89,5 @@ late final TextEditingController _password;
         },
       ),
     );
-
   }
 }
