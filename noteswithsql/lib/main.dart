@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:noteswithsql/firebase_options.dart';
 import 'package:noteswithsql/views/login_view.dart';
+import 'package:noteswithsql/views/notes_view.dart';
 import 'package:noteswithsql/views/register_view.dart';
 import 'package:noteswithsql/views/verify_email.dart';
 
@@ -22,27 +23,27 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              if (user!.emailVerified) {
-                return const LoginView();
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              if (user.emailVerified) {
+                return const NotesView();
               } else {
                 return const VerifyEmailView();
               }
-             
+            } else {
+              return const RegisterView();
+            }
 
-            default:
-              return const Text('Loading...');
-          }
-        },
-      ),
+          default:
+            return const Text('Loading...');
+        }
+      },
     );
   }
 }
